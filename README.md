@@ -2,7 +2,13 @@
 
 Alternative lightweight Steam launcher for Windows
 
-## Compile from source
+## Features
+
+- Game Overlay Toggle
+- Closing Steam after exiting game
+- Killing SteamWebHelper (saves around 600MB of RAM)
+
+## Compile
 
 You can compile from source using MSVS
 
