@@ -1,6 +1,6 @@
 # Steam Compact
 
-Alternative lightweight Steam launcher
+Alternative lightweight Steam launcher for Windows
 
 ## Compile from source
 
