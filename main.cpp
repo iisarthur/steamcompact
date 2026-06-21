@@ -468,14 +468,22 @@ bool UsesSteamworks(const fs::path& gameDir) {
 }
 
 bool IsSteamRunning() {
-  HKEY hKey;
-  DWORD activeProcessID = 0;
-  if (RegOpenKeyEx(HKEY_CURRENT_USER, L"Software\\Valve\\Steam\\ActiveProcess", 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
-    DWORD bufferSize = sizeof(activeProcessID);
-    RegQueryValueEx(hKey, L"ActiveProcessId", NULL, NULL, (LPBYTE)&activeProcessID, &bufferSize);
-    RegCloseKey(hKey);
+  bool running = false;
+  HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+  if (hSnapshot != INVALID_HANDLE_VALUE) {
+    PROCESSENTRY32W pe;
+    pe.dwSize = sizeof(PROCESSENTRY32W);
+    if (Process32FirstW(hSnapshot, &pe)) {
+      do {
+        if (_wcsicmp(pe.szExeFile, L"steam.exe") == 0) {
+          running = true;
+          break;
+        }
+      } while (Process32NextW(hSnapshot, &pe));
+    }
+    CloseHandle(hSnapshot);
   }
-  return (activeProcessID != 0);
+  return running;
 }
 
 uint32_t GetRunningAppID() {
