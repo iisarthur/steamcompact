@@ -1,6 +1,6 @@
 # Steam Compact
 
-Alternative lightweight Steam launcher for Windows
+Alternative optimized Steam launcher for Windows
 
 ## Download
 [Download latest release for Windows](https://codeberg.org/uuiz/steamcompact/releases/download/latest/SteamCompact.exe)
