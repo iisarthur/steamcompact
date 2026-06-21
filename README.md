@@ -1,6 +1,4 @@
-<div align="center">
 # Steam Compact
-</div>
 
 <div align="center">
   Alternative lightweight Steam launcher
