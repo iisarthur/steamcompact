@@ -8,6 +8,7 @@ Alternative optimized Steam launcher for Windows
 ## Features
 
 - Game Overlay Toggle
+- High CPU priority
 - Closing Steam after exiting game
 - Killing SteamWebHelper (saves around 600MB of RAM)
 
