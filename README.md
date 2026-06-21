@@ -1,8 +1,6 @@
 # Steam Compact
 
-<div align="center">
-  Alternative lightweight Steam launcher
-</div>
+Alternative lightweight Steam launcher
 
 ## Compile from source
 
