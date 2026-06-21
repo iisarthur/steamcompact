@@ -1037,12 +1037,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
             MoveWindow(hListView, 10, 65, width - 20, height - 237, TRUE);
             MoveWindow(hCheckboxForceSteam, 10, height - 166, 20, 24, TRUE);
             MoveWindow(hLabelForceSteam, 35, height - 163, width - 45, 24, TRUE);
-            MoveWindow(hCheckboxOverlay, 10, height - 106, 20, 24, TRUE);
-            MoveWindow(hLabelOverlay, 35, height - 103, width - 45, 24, TRUE);
-            MoveWindow(hCheckboxCloseSteam, 10, height - 104, 20, 24, TRUE);
-            MoveWindow(hLabelCloseSteam, 35, height - 101, width - 45, 24, TRUE);
-            MoveWindow(hCheckboxKiller, 10, height - 74, 20, 24, TRUE);
-            MoveWindow(hLabelKiller, 35, height - 71, width - 45, 24, TRUE);
+            MoveWindow(hCheckboxOverlay, 10, height - 136, 20, 24, TRUE);
+            MoveWindow(hLabelOverlay, 35, height - 133, width - 45, 24, TRUE);
+            MoveWindow(hCheckboxCloseSteam, 10, height - 106, 20, 24, TRUE);
+            MoveWindow(hLabelCloseSteam, 35, height - 103, width - 45, 24, TRUE);
+            MoveWindow(hCheckboxKiller, 10, height - 76, 20, 24, TRUE);
+            MoveWindow(hLabelKiller, 35, height - 73, width - 45, 24, TRUE);
             MoveWindow(hButtonPlay, 10, height - 42, width - 20, 32, TRUE);
             
             ListView_SetColumnWidth(hListView, 0, width - 40);
