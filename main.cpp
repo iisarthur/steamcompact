@@ -60,6 +60,8 @@ struct LocalizedStrings {
   std::wstring btnPlay;
   std::wstring btnStop;
   std::wstring warningMessage;
+  std::wstring btnLaunching;
+  std::wstring btnClosingSteam;
 };
 
 #define IDC_SEARCH_EDIT           101
@@ -127,6 +129,8 @@ LocalizedStrings GetStrings() {
     s.btnPlay = L"Запустить";
     s.btnStop = L"Закрыть";
     s.warningMessage = L"Пожалуйста, выберите игру из списка для запуска";
+    s.btnLaunching = L"Запуск...";
+    s.btnClosingSteam = L"Закрытие Steam...";
   } else {
     s.windowTitle = L"Steam Compact";
     s.activeUser = L"Active User: ";
@@ -139,6 +143,8 @@ LocalizedStrings GetStrings() {
     s.btnPlay = L"Play";
     s.btnStop = L"Stop";
     s.warningMessage = L"Please select a game from the list to launch";
+    s.btnLaunching = L"Launching...";
+    s.btnClosingSteam = L"Closing Steam...";
   }
   return s;
 }
@@ -738,22 +744,14 @@ void UpdatePlayButtonText(HWND hWnd) {
   LocalizedStrings strings = GetStrings();
 
   if (g_IsLaunching) {
-    if (PRIMARYLANGID(GetUserDefaultUILanguage()) == LANG_RUSSIAN) {
-      SetWindowText(hButtonPlay, L"Запуск...");
-    } else {
-      SetWindowText(hButtonPlay, L"Launching...");
-    }
+    SetWindowText(hButtonPlay, strings.btnLaunching.c_str());
     EnableWindow(hButtonPlay, FALSE);
     InvalidateRect(hButtonPlay, NULL, TRUE);
     return;
   }
 
   if (g_IsSteamShuttingDown) {
-    if (PRIMARYLANGID(GetUserDefaultUILanguage()) == LANG_RUSSIAN) {
-      SetWindowText(hButtonPlay, L"Закрытие Steam...");
-    } else {
-      SetWindowText(hButtonPlay, L"Closing Steam...");
-    }
+    SetWindowText(hButtonPlay, strings.btnClosingSteam.c_str());
     EnableWindow(hButtonPlay, FALSE);
     InvalidateRect(hButtonPlay, NULL, TRUE);
     return;
