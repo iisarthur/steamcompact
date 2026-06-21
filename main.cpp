@@ -535,15 +535,16 @@ void MonitorAndKillLoop(uint32_t targetAppID) {
     if (GetRunningAppID() == targetAppID) {
       gameStarted = true;
       break;
+      Sleep(1000);
     }
-    Sleep(1000);
+    Sleep(15000);
   }
   if (!gameStarted) return;
 
   while (GetRunningAppID() == targetAppID) {
     KillProcessByName(L"steamwebhelper.exe");
     KillProcessByName(L"GameOverlayUI.exe");
-    Sleep(500);
+    Sleep(1500);
   }
 }
 
