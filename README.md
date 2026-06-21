@@ -2,6 +2,9 @@
 
 Alternative lightweight Steam launcher for Windows
 
+## Download
+[Download for Windows](https://codeberg.org/uuiz/steamcompact/releases/latest)
+
 ## Features
 
 - Game Overlay Toggle
