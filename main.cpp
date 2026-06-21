@@ -591,50 +591,48 @@ void LaunchGame(const SteamGame& game) {
   }
 
   if (requiresSteam) {
-    if (isOverlayEnabled && !isKillerEnabled) {
-      std::wstring params =
+  if (isOverlayEnabled || isKillerEnabled) {
+    std::wstring params = 
+    L"-silent -dev -console -nofriendsui -no-dwrite -nointro -nobigpicture -nofasthtml "
+    L"-nocrashmonitor -noshaders -no-shared-textures -disablehighdpi -cef-single-process "
+    L"-cef-in-process-gpu -single_core -cef-disable-d3d11 -cef-disable-sandbox -disable-winh264 "
+    L"-cef-force-32bit -no-cef-sandbox -vrdisable -cef-disable-breakpad -applaunch " + std::to_wstring(game.appid);
+    
+    ShellExecute(NULL, L"open", steamExe.c_str(), params.c_str(), NULL, SW_SHOWNORMAL);
+  } else {
+    if (!IsSteamRunning()) {
+      std::wstring params = 
       L"-silent -dev -console -nofriendsui -no-dwrite -nointro -nobigpicture -nofasthtml "
       L"-nocrashmonitor -noshaders -no-shared-textures -disablehighdpi -cef-single-process "
       L"-cef-in-process-gpu -single_core -cef-disable-d3d11 -cef-disable-sandbox -disable-winh264 "
-      L"-cef-force-32bit -no-cef-sandbox -vrdisable -cef-disable-breakpad -applaunch " + std::to_wstring(game.appid);
-
+      L"-cef-force-32bit -no-cef-sandbox -vrdisable -cef-disable-breakpad";
       ShellExecute(NULL, L"open", steamExe.c_str(), params.c_str(), NULL, SW_SHOWNORMAL);
+      Sleep(2500); 
+    }
+    fs::path appidFilePath = fs::path(game.workingDir) / L"steam_appid.txt";
+    if (!fs::exists(appidFilePath)) {
+      std::ofstream appidFile(appidFilePath);
+      if (appidFile.is_open()) {
+        appidFile << game.appid;
+        appidFile.close();
+      }
+    }
+    if (!game.exePath.empty()) {
+      ShellExecute(NULL, L"open", game.exePath.c_str(), NULL, game.workingDir.c_str(), SW_SHOWNORMAL);
     } else {
-      if (!IsSteamRunning()) {
-        std::wstring params =
-        L"-silent -dev -console -nofriendsui -no-dwrite -nointro -nobigpicture -nofasthtml "
-        L"-nocrashmonitor -noshaders -no-shared-textures -disablehighdpi -cef-single-process "
-        L"-cef-in-process-gpu -single_core -cef-disable-d3d11 -cef-disable-sandbox -disable-winh264 "
-        L"-cef-force-32bit -no-cef-sandbox -vrdisable -cef-disable-breakpad";
-        ShellExecute(NULL, L"open", steamExe.c_str(), params.c_str(), NULL, SW_SHOWNORMAL);
-        Sleep(2500);
-      }
-
-      fs::path appidFilePath = fs::path(game.workingDir) / L"steam_appid.txt";
-      if (!fs::exists(appidFilePath)) {
-        std::ofstream appidFile(appidFilePath);
-        if (appidFile.is_open()) {
-          appidFile << game.appid;
-          appidFile.close();
-        }
-      }
-
-      if (!game.exePath.empty()) {
-        ShellExecute(NULL, L"open", game.exePath.c_str(), NULL, game.workingDir.c_str(), SW_SHOWNORMAL);
-      } else {
-        std::wstring params = L"-silent -applaunch " + std::to_wstring(game.appid);
-        ShellExecute(NULL, L"open", steamExe.c_str(), params.c_str(), NULL, SW_SHOWNORMAL);
-      }
+      std::wstring params = L"-silent -applaunch " + std::to_wstring(game.appid);
+      ShellExecute(NULL, L"open", steamExe.c_str(), params.c_str(), NULL, SW_SHOWNORMAL);
     }
-
-    if (isKillerEnabled) {
-      std::thread t(MonitorAndKillLoop, game.appid);
-      t.detach();
-    }
-    if (isCloseSteamChecked) {
-      std::thread t(MonitorAndCloseSteamLoop, game.appid, steamExe);
-      t.detach();
-    }
+  }
+  
+  if (isKillerEnabled) {
+    std::thread t(MonitorAndKillLoop, game.appid);
+    t.detach();
+  }
+  if (isCloseSteamChecked) {
+    std::thread t(MonitorAndCloseSteamLoop, game.appid, steamExe);
+    t.detach();
+  }
   } else {
     if (!game.exePath.empty()) {
       fs::path appidFilePath = fs::path(game.workingDir) / L"steam_appid.txt";
